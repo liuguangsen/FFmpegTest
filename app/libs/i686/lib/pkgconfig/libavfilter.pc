@@ -1,0 +1,14 @@
+prefix=./android/i686
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavfilter
+Description: FFmpeg audio/video filtering library
+Version: 6.46.102
+Requires: 
+Requires.private: libswscale >= 4.1.100, libavformat >= 57.40.101, libavcodec >= 57.48.101, libswresample >= 2.1.100, libavutil >= 55.27.100
+Conflicts:
+Libs: -L${libdir}  -lavfilter 
+Libs.private: -ldl -lm -lz -pthread
+Cflags: -I${includedir}
