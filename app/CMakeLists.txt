@@ -12,9 +12,9 @@ cmake_minimum_required(VERSION 3.4.1)
 
 #添加头文件路径
 include_directories(include)
-
 #设置ffmpeg库所在路径的变量
 set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
+
 add_library(avcodec SHARED IMPORTED)
 set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${FF}/libavcodec.so)
 
@@ -46,11 +46,11 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
+    # Specifies libraries CMake should link to your target library. You
+    # can link multiple libraries, such as libraries you define in this
+    # build script, prebuilt third-party libraries, or system libraries.
 
-target_link_libraries( # Specifies the target library.
+    target_link_libraries( # Specifies the target library.
                        native-lib
                         avcodec avformat avutil
                        # Links the target library to the log library
