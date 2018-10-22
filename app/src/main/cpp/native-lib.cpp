@@ -76,16 +76,27 @@ Java_com_stick_gsliu_ffmpegtest_MainActivity_stringFromJNI(
     audioIndex = av_find_best_stream(ic, AVMEDIA_TYPE_AUDIO, -1, -1, NULL, 0);
     LOGW("av_find_best_stream videoIndex = %d , audioIndex = %d", videoIndex, audioIndex);
 
+    //软解码器
+    AVCodec *codec = avcodec_find_decoder(ic->streams[videoIndex]->codecpar->codec_id);
+
     AVPacket *pkt = av_packet_alloc();
     for (;;) {
         re = av_read_frame(ic,pkt);
         if (re!=0){
             int pos = 3 * r2d(ic->streams[videoIndex]->time_base);
             av_seek_frame(ic,videoIndex,pos,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_FRAME);
+            continue;
         }
         LOGW("stream = %d size = %d pts = %lld flag = %d",pkt->stream_index,pkt->size,pkt->pts,pkt->flags);
+
+        //只测试视频
+        if (pkt->stream_index != videoIndex){
+            continue;
+        }
         //TODO 我这里测试模拟器直接卡死了，应该可以看到native内存确实有所减少
         av_packet_unref(pkt);
+
+        //re = avcodec_send_packet(,)
     }
 
     avformat_close_input(&ic);
